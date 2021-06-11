@@ -7,10 +7,11 @@ Created on Thu Jun 10 12:41:49 2021
 
 import exifread  # used to interact with tags in tif files
 from pathlib import Path  # a class based module for interacting with files
+from pandas import DataFrame
 
 
 def get_coordinates(directory, filetype):
-    '''
+    """
     Creates a list of x,y coordinates found in the metadata of tif files.
 
     Parameters
@@ -27,7 +28,7 @@ def get_coordinates(directory, filetype):
     list_y : TYPE List
         DESCRIPTION. A list of y values from metadata of EMC imaging
 
-    '''
+    """
     # make an array of objects corresponding to all the tif files in a directory
     paths = Path(directory).glob('**/*.tif')
 
@@ -70,8 +71,13 @@ def find_differences(list_x, list_y):
 def main():
     x, y = get_coordinates('C:/Users/batemanb/SpyderProjects/metaDataDifferenceCalc', '**/*.tif')
     delx, dely = find_differences(x, y)
-    print("X Coordinates = {0} \nY Coordinates = {1}".format(x, y))
-    print("delta x = {0} \ndelta y = {1}".format(delx, dely))
+    df_list = [x, y, delx, dely]
+    df = DataFrame(df_list).transpose()
+    df.columns = ['X coor', 'Y coor', 'dx', 'dy']
+    print(df)
+    # print(df_list)
+    # print("X Coordinates = {0} \nY Coordinates = {1}".format(x, y))
+    # print("delta x = {0} \ndelta y = {1}".format(delx, dely))
 
 
 main()
