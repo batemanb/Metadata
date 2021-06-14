@@ -75,16 +75,28 @@ def create_data_frame(directory):
     df_list = [x, y, delx, dely]
     df = DataFrame(df_list).transpose()
     df.columns = ['X coor', 'Y coor', 'dx', 'dy']
+
     return df
-    # print(df)
+
     # print(df_list)
     # print("X Coordinates = {0} \nY Coordinates = {1}".format(x, y))
     # print("delta x = {0} \ndelta y = {1}".format(delx, dely))
 
 
+def find_differences_pandas(dataframe, image1, image2):
+    df = dataframe
+    x = df['X coor']
+    y = df['Y coor']
+    dx = x[image2] - x[image1]
+    dy = y[image2] - y[image1]
+    return dy, dx
+
+
 def main():
     df = create_data_frame('C:/Users/batemanb/Documents/Mizzou_UGR/SEM images/20210607')  # The folder of images we're using
     df.to_excel('C:/Users/batemanb/Documents/Mizzou_UGR/SEM images/20210607/20210607.xlsx')  # an excel file in said folder
+    # dy, dx = find_differences_pandas(df, 0, 1)
+    # print(dy, dx)
 
 
 if __name__ == '__main__':
