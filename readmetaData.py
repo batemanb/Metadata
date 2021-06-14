@@ -68,16 +68,24 @@ def find_differences(list_x, list_y):
     return delx, dely
 
 
-def main():
-    x, y = get_coordinates('C:/Users/batemanb/SpyderProjects/metaDataDifferenceCalc', '**/*.tif')
+def create_data_frame(directory):
+    # unpacks x, y lists from get_coordinates(directory, filetype)
+    x, y = get_coordinates(directory, '**/*.tif')
     delx, dely = find_differences(x, y)
     df_list = [x, y, delx, dely]
     df = DataFrame(df_list).transpose()
     df.columns = ['X coor', 'Y coor', 'dx', 'dy']
-    print(df)
+    return df
+    # print(df)
     # print(df_list)
     # print("X Coordinates = {0} \nY Coordinates = {1}".format(x, y))
     # print("delta x = {0} \ndelta y = {1}".format(delx, dely))
 
 
-main()
+def main():
+    df = create_data_frame('C:/Users/batemanb/Documents/Mizzou_UGR/SEM images/20210607')  # The folder of images we're using
+    df.to_excel('C:/Users/batemanb/Documents/Mizzou_UGR/SEM images/20210607/20210607.xlsx')  # an excel file in said folder
+
+
+if __name__ == '__main__':
+    main()
