@@ -8,6 +8,8 @@ Created on Thu Jun 10 12:41:49 2021
 import exifread  # used to interact with tags in tif files
 from pathlib import Path  # a class based module for interacting with files
 from pandas import DataFrame
+from tkinter import Tk     # from tkinter import Tk for Python 3.x
+from tkinter import filedialog
 
 
 def get_coordinates(directory, filetype):
@@ -93,10 +95,15 @@ def find_differences_pandas(dataframe, image1, image2):
 
 
 def main():
-    df = create_data_frame('C:/Users/batemanb/Documents/Mizzou_UGR/SEM images/20210607')  # The folder of images we're using
-    df.to_excel('C:/Users/batemanb/Documents/Mizzou_UGR/SEM images/20210607/20210607.xlsx')  # an excel file in said folder
+    # create a dataframe from an excel file
+    Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
+    foldername = filedialog.askdirectory()
+    df = create_data_frame(foldername)  # The folder of images we're using
+    filename = filedialog.asksaveasfilename()
+    df.to_excel(filename)  # an excel file in said folder
     # dy, dx = find_differences_pandas(df, 0, 1)
     # print(dy, dx)
+    # print(df)
 
 
 if __name__ == '__main__':
